@@ -31,7 +31,7 @@ public class DepartmentControllerTest {
 
     @Test
     public void shouldList() throws Exception {
-        when(departmentService.getDepartments()).thenReturn(Arrays.asList(new Department("dep 1", 1L),new Department("dep 2", 2L)));
+        when(departmentService.getDepartments()).thenReturn(Arrays.asList(new Department(1L, "dep 1"),new Department(2L, "dep 2")));
         mockMvc.perform(MockMvcRequestBuilders.get("/departments"))
                 .andExpect(status().isOk())
                 .andExpect(content()
