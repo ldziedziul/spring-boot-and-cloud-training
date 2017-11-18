@@ -4,8 +4,8 @@ import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentService {
@@ -21,5 +21,10 @@ public class DepartmentService {
 
     public Department addDepartment(Department department) {
         return departmentRepository.saveAndFlush(department);
+    }
+
+    public Department getDepartment(Long id) {
+        return Optional.ofNullable(departmentRepository.findOne(id))
+                .orElseThrow(DepartmentNotFoundException::new);
     }
 }

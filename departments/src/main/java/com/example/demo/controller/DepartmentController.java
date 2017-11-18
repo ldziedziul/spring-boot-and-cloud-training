@@ -8,6 +8,8 @@ import com.example.demo.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,5 +40,12 @@ public class DepartmentController {
         Department department = departmentService.addDepartment(Mapper.map(dto, Department.class));
         return ResponseEntity.created(UriBuilder.requestUriWithId(department.getId())).build();
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @ApiOperation("Get departments")
+    public DepartmentDto getDepartment(@PathVariable("id") Long id) {
+        return Mapper.map(departmentService.getDepartment(id), DepartmentDto.class);
+    }
+
 
 }
