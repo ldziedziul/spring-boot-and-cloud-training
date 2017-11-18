@@ -16,16 +16,16 @@ public class Mapper {
         this.messageSource = messageSource;
     }
 
-    public static <TO, FROM> TO map(FROM src, Class<TO> dest) {
+    public <TO, FROM> TO map(FROM src, Class<TO> dest) {
         return new ModelMapper().map(src, dest);
     }
 
-    public static <TO, FROM> TO map(FROM src, TO dest) {
+    public <TO, FROM> TO map(FROM src, TO dest) {
         new ModelMapper().map(src, dest);
         return dest;
     }
 
-    public static <TO, FROM> List<TO> map(List<FROM> src, Class<TO> dest) {
+    public <TO, FROM> List<TO> map(List<FROM> src, Class<TO> dest) {
         return src.stream().map(s -> map(s, dest)).collect(Collectors.toList());
     }
 

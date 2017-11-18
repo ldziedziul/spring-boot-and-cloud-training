@@ -27,4 +27,13 @@ public class DepartmentService {
         return Optional.ofNullable(departmentRepository.findOne(id))
                 .orElseThrow(DepartmentNotFoundException::new);
     }
+
+    public void deleteDepartment(Long id) {
+        departmentRepository.delete(getDepartment(id));
+    }
+
+    public void updateDepartment(Department department) {
+        getDepartment(department.getId());
+        departmentRepository.saveAndFlush(department);
+    }
 }
