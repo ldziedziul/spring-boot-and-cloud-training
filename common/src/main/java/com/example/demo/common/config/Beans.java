@@ -1,5 +1,6 @@
 package com.example.demo.common.config;
 
+import com.example.demo.common.JsonConverter;
 import com.example.demo.common.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,5 +19,10 @@ public class Beans {
     public Mapper mapper(MessageSource messageSource) {
         log.error("Creating new mapper");
         return new Mapper(messageSource);
+    }
+
+    @Bean
+    public JsonConverter jsonConverter(){
+        return new JsonConverter();
     }
 }
