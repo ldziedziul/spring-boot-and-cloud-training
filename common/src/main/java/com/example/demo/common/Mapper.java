@@ -1,6 +1,6 @@
 package com.example.demo.common;
 
-import com.example.demo.common.web.ExceptionDto;
+import com.example.demo.common.dto.ExceptionDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;

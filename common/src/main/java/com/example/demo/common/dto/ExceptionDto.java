@@ -1,4 +1,4 @@
-package com.example.demo.common.web;
+package com.example.demo.common.dto;
 
 import lombok.Data;
 import lombok.NonNull;
