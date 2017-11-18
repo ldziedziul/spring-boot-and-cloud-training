@@ -37,6 +37,18 @@ public class DepartmentController {
         return mapper.map(departmentService.getDepartments(), DepartmentDto.class);
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "starting_with/{prefix}")
+    @ApiOperation("List all departments starting with the given prefix")
+    public List<DepartmentDto> listStartingWith(@PathVariable("prefix") String prefix) {
+        return mapper.map(departmentService.getDepartmentsStartingWith(prefix), DepartmentDto.class);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "ending_with/{postfix}")
+    @ApiOperation("List all departments ending with the given postfix")
+    public List<DepartmentDto> listEndingWith(@PathVariable("postfix") String postfix) {
+        return mapper.map(departmentService.getDepartmentsEndingWith(postfix), DepartmentDto.class);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation("Add new department")
     public ResponseEntity add(@RequestBody DepartmentDto dto) {
@@ -63,6 +75,13 @@ public class DepartmentController {
         Department department = mapper.map(dto, Department.class);
         department.setId(id);
         departmentService.updateDepartment(department);
+        return noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "normalized")
+    @ApiOperation("Replace name with id")
+    public ResponseEntity replaceNameWithId() {
+        departmentService.replaceNameWithId();
         return noContent().build();
     }
 

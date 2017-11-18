@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,14 @@ public class DepartmentService {
 
     public List<Department> getDepartments() {
         return departmentRepository.findAll();
+    }
+
+    public List<Department> getDepartmentsStartingWith(String prefix) {
+        return departmentRepository.findAllByNameStartingWith(prefix);
+    }
+
+    public List<Department> getDepartmentsEndingWith(String postfix) {
+        return departmentRepository.findAllByNameEndingWith(postfix);
     }
 
     public Department addDepartment(Department department) {
@@ -35,5 +44,10 @@ public class DepartmentService {
     public void updateDepartment(Department department) {
         getDepartment(department.getId());
         departmentRepository.saveAndFlush(department);
+    }
+
+    @Transactional
+    public void replaceNameWithId() {
+        departmentRepository.replaceNameWithId();
     }
 }
