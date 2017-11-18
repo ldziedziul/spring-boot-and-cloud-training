@@ -10,6 +10,6 @@ import java.util.List;
 public class DepartmentService {
 
     public List<Department> getDepartments() {
-        return Arrays.asList(new Department("department 1", 1), new Department("department 2", 2));
+        return Arrays.asList(new Department("department 1", 1L), new Department("department 2", 2L));
     }
 }
