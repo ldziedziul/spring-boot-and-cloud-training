@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.JsonConverter;
+import com.example.demo.common.Profiles;
 import com.example.demo.common.config.CommonBeans;
 import com.example.demo.common.dto.ErrorEntry;
 import com.example.demo.common.dto.ValidationErrorDto;
@@ -14,21 +15,27 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.any;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(DepartmentController.class)
 @Import(CommonBeans.class)
+@ActiveProfiles(Profiles.DEV)
+@WithMockUser
 public class DepartmentControllerTest {
 
     @Autowired
@@ -64,10 +71,29 @@ public class DepartmentControllerTest {
 
     @Test
     public void shouldAdd() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/departments").content("{\"name\": \"some-name\"}")
+        mockMvc.perform(MockMvcRequestBuilders.post("/departments")
+                .content("{\"name\": \"some-name\"}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
         verify(departmentService).addDepartment(any());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void shouldRejectWrongUser() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/departments")
+                .with(httpBasic("user", "wrong"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void shouldAcceptValidUser() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/departments")
+                .with(httpBasic("user", "pass"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

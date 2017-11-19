@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.common.JsonConverter;
+import com.example.demo.common.Profiles;
 import com.example.demo.dto.DepartmentDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,18 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles({Profiles.DEV})
+@WithMockUser
 public class DepartmentsApplicationTests {
     @Autowired
     private MockMvc mockMvc;
@@ -28,8 +36,9 @@ public class DepartmentsApplicationTests {
     private JsonConverter jsonConverter;
 
     @Test
+    @WithAnonymousUser
     public void contextLoads() throws Exception {
-        mockMvc.perform(get("/index.html"))
+        mockMvc.perform(get("/index.html").with(httpBasic("user", "pass")))
                 .andExpect(MockMvcResultMatchers.content()
                         .string("Wprowadzenie do spring io"));
     }
