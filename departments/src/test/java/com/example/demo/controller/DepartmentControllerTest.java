@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.JsonConverter;
-import com.example.demo.common.config.Beans;
+import com.example.demo.common.config.CommonBeans;
 import com.example.demo.common.dto.ErrorEntry;
 import com.example.demo.common.dto.ValidationErrorDto;
 import com.example.demo.model.Department;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(DepartmentController.class)
-@Import(Beans.class)
+@Import(CommonBeans.class)
 public class DepartmentControllerTest {
 
     @Autowired

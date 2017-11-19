@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
-public class Beans {
-    private static final Logger log = LoggerFactory.getLogger(Beans.class);
+public class CommonBeans {
+    private static final Logger log = LoggerFactory.getLogger(CommonBeans.class);
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
