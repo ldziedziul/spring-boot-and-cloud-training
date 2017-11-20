@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>departments</module>
+		<module>users</module>
 		<module>common</module>
 	</modules>
 
