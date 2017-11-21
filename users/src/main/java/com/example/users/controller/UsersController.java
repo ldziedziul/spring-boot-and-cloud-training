@@ -10,11 +10,9 @@ import com.example.users.service.UsersService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.created;
@@ -49,13 +47,6 @@ public class UsersController {
         ResultPage<User> resultPage = usersService.getUsers(pageNumber, pageSize);
         List<UserDto> usersDtos = mapper.map(resultPage.getContent(), UserDto.class);
         return new PageDto<>(usersDtos, resultPage.getPageNumber(), resultPage.getTotalPages());
-    }
-
-    @ApiOperation(value = "Get active user", response = UserDto.class)
-    @RequestMapping(value = "active", method = RequestMethod.GET)
-    public UserDto getActiveUser(Principal principal) {
-        UserDetails userDetails = usersService.loadUserByUsername(principal.getName());
-        return mapper.map(userDetails, UserDto.class);
     }
 
 }

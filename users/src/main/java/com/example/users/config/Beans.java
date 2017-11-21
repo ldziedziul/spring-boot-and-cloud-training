@@ -1,17 +1,11 @@
 package com.example.users.config;
 
-import org.springframework.context.annotation.Bean;
+import com.example.demo.common.config.CommonBeans;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
+@ComponentScan(basePackageClasses = CommonBeans.class)
 public class Beans {
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder();
-    }
-
 
 }
