@@ -2,6 +2,7 @@ package com.example.users.service;
 
 import com.example.users.model.Department;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class FeignDepartmentsService implements DepartmentsService {
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackDepartment")
+    @Cacheable(value = "departments", unless="#result == null")
     public Optional<Department> getDepartmentById(Long id) {
         Department department = feignDepartmentsClient.getDepartmentById(id);
         return department != null ? Optional.of(department) : Optional.empty();
