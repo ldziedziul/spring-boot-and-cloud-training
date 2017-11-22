@@ -1,23 +1,24 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Mapper;
+import com.example.demo.common.dto.ExceptionDto;
 import com.example.demo.common.web.UriBuilder;
 import com.example.demo.dto.DepartmentDto;
 import com.example.demo.model.Department;
+import com.example.demo.service.DepartmentNotFoundException;
 import com.example.demo.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
-import static org.springframework.http.ResponseEntity.*;
+import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.noContent;
 
 @RestController
 @RequestMapping("/departments")
@@ -84,6 +85,12 @@ public class DepartmentController {
     public ResponseEntity replaceNameWithId() {
         departmentService.replaceNameWithId();
         return noContent().build();
+    }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity handleException(DepartmentNotFoundException ex, Locale locale) {
+        ExceptionDto dto = mapper.map(ex, locale);
+        return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
     }
 
 
