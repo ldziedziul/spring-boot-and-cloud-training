@@ -40,7 +40,7 @@ public class DepartmentService {
 
     private void randomSleep() {
         try {
-            Thread.sleep((long) (1500 + (Math.random() * 4000)));
+            Thread.sleep((long) (100 + (Math.random() * 500)));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
