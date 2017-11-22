@@ -33,8 +33,17 @@ public class DepartmentService {
     }
 
     public Department getDepartment(Long id) {
+        randomSleep();
         return Optional.ofNullable(departmentRepository.findOne(id))
                 .orElseThrow(DepartmentNotFoundException::new);
+    }
+
+    private void randomSleep() {
+        try {
+            Thread.sleep((long) (1500 + (Math.random() * 4000)));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteDepartment(Long id) {
